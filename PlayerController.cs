@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float baseSpeed = 1.0f;
     public static Vector3 movementDirection;
     public static float movementSpeed;
+    public static bool canMove = true;
     private float horizontalMovement;
     private float verticalMovement;
 
@@ -17,10 +18,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 lastMove;
     // 
     public static void stopMovement(){
-        // rb.velocity = 0;
-        // movementSpeed = 0;
-        // movementDirection = Vector3.zero;
         rb.velocity = new Vector3(0, 0, 0); 
+        canMove = false;
+    }
+    public static void startMovement(){
+        canMove = true;
     }
     // 
     // Start is called before the first frame update
@@ -38,17 +40,19 @@ public class PlayerController : MonoBehaviour
         movementDirection = new Vector3(horizontalMovement, 0, verticalMovement);
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
         movementDirection.Normalize();
-        
-        if (horizontalMovement > 0.5f || horizontalMovement < -0.5f){
-            playerMoving = true;
-            lastMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
-            rb.velocity = movementDirection * movementSpeed * baseSpeed;
-        }
 
-        if (verticalMovement > 0.5f || verticalMovement < -0.5f){
-            playerMoving = true;
-            lastMove = new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
-            rb.velocity = movementDirection * movementSpeed * baseSpeed;
+        if (canMove){
+            if (horizontalMovement > 0.5f || horizontalMovement < -0.5f){
+                playerMoving = true;
+                lastMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+                rb.velocity = movementDirection * movementSpeed * baseSpeed;
+            }
+
+            if (verticalMovement > 0.5f || verticalMovement < -0.5f){
+                playerMoving = true;
+                lastMove = new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
+                rb.velocity = movementDirection * movementSpeed * baseSpeed;
+            }
         }
         if (playerMoving == false){
             rb.velocity = new Vector3(0, 0, 0); 
@@ -56,6 +60,6 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("PlayerMoving", playerMoving);
         anim.SetFloat("LastMoveX", lastMove.x);
         anim.SetFloat("LastMoveY", lastMove.z);
-
+    
     }
 }

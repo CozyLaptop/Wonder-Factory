@@ -31,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
         if (attackTime <= 0){
             attackTime = 0;
             anim.SetBool("PlayerAttacking", false);
+            PlayerController.startMovement();
         
             // for (int i = 0; i < damage.Length; i++){
             //         Destroy( damage[i].gameObject );
