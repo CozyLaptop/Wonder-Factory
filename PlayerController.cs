@@ -6,42 +6,46 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float baseSpeed = 1.0f;
-    public Vector3 movementDirection;
-    public float movementSpeed;
+    public static Vector3 movementDirection;
+    public static float movementSpeed;
+    private float horizontalMovement;
+    private float verticalMovement;
 
-    private Rigidbody rb;
+    public static Rigidbody rb;
     private Animator anim;
     private bool playerMoving;
     private Vector3 lastMove;
-    private bool playerAttacking;
-
+    // 
+    public static void stopMovement(){
+        // rb.velocity = 0;
+        // movementSpeed = 0;
+        // movementDirection = Vector3.zero;
+        rb.velocity = new Vector3(0, 0, 0); 
+    }
+    // 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate(){
         playerMoving = false;
-        // playerAttacking = false;
         anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
-
-        movementDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        horizontalMovement = Input.GetAxisRaw("Horizontal");
+        verticalMovement = Input.GetAxisRaw("Vertical");
+        movementDirection = new Vector3(horizontalMovement, 0, verticalMovement);
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
         movementDirection.Normalize();
         
-        if (Input.GetAxisRaw("Horizontal") > 0.5f || Input.GetAxisRaw("Horizontal") < -0.5f)
-        {
+        if (horizontalMovement > 0.5f || horizontalMovement < -0.5f){
             playerMoving = true;
             lastMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
             rb.velocity = movementDirection * movementSpeed * baseSpeed;
         }
 
-        if (Input.GetAxisRaw("Vertical") > 0.5f || Input.GetAxisRaw("Vertical") < -0.5f)
-        {
+        if (verticalMovement > 0.5f || verticalMovement < -0.5f){
             playerMoving = true;
             lastMove = new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
             rb.velocity = movementDirection * movementSpeed * baseSpeed;
@@ -49,13 +53,6 @@ public class PlayerController : MonoBehaviour
         if (playerMoving == false){
             rb.velocity = new Vector3(0, 0, 0); 
         };
-        // if (Input.GetKeyDown("space")) {
-        //     Debug.Log("Space key pressed");
-        //     playerAttacking = true;
-        // };
-
-            
-        // anim.SetBool("PlayerAttacking", playerAttacking);
         anim.SetBool("PlayerMoving", playerMoving);
         anim.SetFloat("LastMoveX", lastMove.x);
         anim.SetFloat("LastMoveY", lastMove.z);

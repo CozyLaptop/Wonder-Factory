@@ -11,23 +11,22 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackLocation;
     public float attackRange;
     public LayerMask enemies;
-    private bool playerAttacking;
-
     private void Start()
     {
         anim = GetComponent<Animator>();
     }
-
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKeyDown("space")) {
             attackTime = startTimeAttack;
-            playerAttacking = true;
             anim.SetBool("PlayerAttacking", true);
             Collider2D[] damage = Physics2D.OverlapCircleAll( attackLocation.position, attackRange, enemies );
         } 
         if (attackTime > 0) {
         attackTime -= Time.deltaTime;
+        }
+        if (anim.GetBool("PlayerAttacking") == true){
+            PlayerController.stopMovement();
         }
         if (attackTime <= 0){
             attackTime = 0;
