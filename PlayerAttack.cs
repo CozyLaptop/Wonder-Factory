@@ -22,13 +22,12 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKeyDown("space")) {
             attackTime = startTimeAttack;
-            playerAttacking == true;
+            playerAttacking = true;
             anim.SetBool("PlayerAttacking", true);
             Collider2D[] damage = Physics2D.OverlapCircleAll( attackLocation.position, attackRange, enemies );
         } 
         if (attackTime > 0) {
         attackTime -= Time.deltaTime;
-
         }
         if (attackTime <= 0){
             attackTime = 0;
