@@ -27,16 +27,24 @@ public class PlayerController : MonoBehaviour
     // 
     // Start is called before the first frame update
     void Start(){
+        canMove = true;
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-    }
 
+    }
+    void Update() {
+
+    }
     void FixedUpdate(){
         playerMoving = false;
-        anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
-        anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
         horizontalMovement = Input.GetAxisRaw("Horizontal");
         verticalMovement = Input.GetAxisRaw("Vertical");
+        anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
+        anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
+        anim.SetBool("PlayerMoving", playerMoving);
+        anim.SetFloat("LastMoveX", lastMove.x);
+        anim.SetFloat("LastMoveY", lastMove.z);
+
         movementDirection = new Vector3(horizontalMovement, 0, verticalMovement);
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
         movementDirection.Normalize();
@@ -57,9 +65,7 @@ public class PlayerController : MonoBehaviour
         if (playerMoving == false){
             rb.velocity = new Vector3(0, 0, 0); 
         };
-        anim.SetBool("PlayerMoving", playerMoving);
-        anim.SetFloat("LastMoveX", lastMove.x);
-        anim.SetFloat("LastMoveY", lastMove.z);
+
     
     }
 }

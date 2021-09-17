@@ -11,8 +11,10 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackLocation;
     public float attackRange;
     public LayerMask enemies;
+    public bool playerAttacking;
     private void Start()
     {
+        attackTime = 0;
         anim = GetComponent<Animator>();
     }
     void FixedUpdate()
@@ -20,16 +22,22 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown("space")) {
             attackTime = startTimeAttack;
             anim.SetBool("PlayerAttacking", true);
-            Collider2D[] damage = Physics2D.OverlapCircleAll( attackLocation.position, attackRange, enemies );
+
+            // playerAttacking = true;
+            // Collider2D[] damage = Physics2D.OverlapCircleAll( attackLocation.position, attackRange, enemies );
         } 
         if (attackTime > 0) {
         attackTime -= Time.deltaTime;
+        PlayerController.stopMovement();
+
         }
-        if (anim.GetBool("PlayerAttacking") == true){
-            PlayerController.stopMovement();
-        }
-        if (attackTime <= 0){
+        // if (anim.GetBool("PlayerAttacking") == true){
+        // if (playerAttacking == true){
+        //     PlayerController.stopMovement();
+        // }
+        if (attackTime < 0){
             attackTime = 0;
+            // playerAttacking = false;
             anim.SetBool("PlayerAttacking", false);
             PlayerController.startMovement();
         
