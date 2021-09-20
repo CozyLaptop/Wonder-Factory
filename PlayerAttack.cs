@@ -22,14 +22,12 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown("space")) {
             attackTime = startTimeAttack;
             anim.SetBool("PlayerAttacking", true);
-
-            // playerAttacking = true;
-            // Collider2D[] damage = Physics2D.OverlapCircleAll( attackLocation.position, attackRange, enemies );
         } 
-        if (attackTime > 0) {
+        // if (attackTime > 0) {
+        if (anim.GetBool("PlayerAttacking") == true){
         attackTime -= Time.deltaTime;
+        Debug.Log("Attack time is: " + attackTime);
         PlayerController.stopMovement();
-
         }
         // if (anim.GetBool("PlayerAttacking") == true){
         // if (playerAttacking == true){
@@ -40,7 +38,6 @@ public class PlayerAttack : MonoBehaviour
             // playerAttacking = false;
             anim.SetBool("PlayerAttacking", false);
             PlayerController.startMovement();
-        
             // for (int i = 0; i < damage.Length; i++){
             //         Destroy( damage[i].gameObject );
             //     }
