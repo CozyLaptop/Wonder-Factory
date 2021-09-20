@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public float baseSpeed = 1.0f;
     public static Vector3 movementDirection;
     public static float movementSpeed;
-    public static bool canMove = true;
     private float horizontalMovement;
     private float verticalMovement;
 
@@ -19,15 +18,12 @@ public class PlayerController : MonoBehaviour
     // 
     public static void stopMovement(){
         rb.velocity = new Vector3(0, 0, 0); 
-        canMove = false;
     }
     public static void startMovement(){
-        canMove = true;
     }
     // 
     // Start is called before the first frame update
     void Start(){
-        canMove = true;
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
 
