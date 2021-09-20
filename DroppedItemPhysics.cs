@@ -31,6 +31,7 @@ public class DroppedItemPhysics : MonoBehaviour{
         //set sorting layer to objects
         bottomSpriteRenderer.sortingOrder = spriteRenderer.sortingOrder;
 
+        // Picks a random number for each axis and adds force to those directions
         var randomDirectionX = Random.Range(-1f, 1);
         var randomDirectionY = Random.Range(2f, 4f);
         var randomDirectionZ = Random.Range(-1f, 1);
@@ -50,7 +51,8 @@ public class DroppedItemPhysics : MonoBehaviour{
         bottomShadow.transform.rotation = Quaternion.Euler(0, y, 0); //rotate shadow with y
         objectPos.x = transform.position.x;
         objectPos.z = transform.position.z;
-        bottomShadow.transform.position = new Vector3(objectPos.x, 0, objectPos.z); //move shadow with objects X and Z //make sure shadow y stays 0
+        bottomShadow.transform.position = new Vector3(objectPos.x, 0, objectPos.z); //move shadow with parent object
+        //make sure shadow y stays 0
 
         //if object hits floor, stop movement
         if (transform.position.y <= -.01f){
