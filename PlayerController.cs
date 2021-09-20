@@ -15,13 +15,6 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private bool playerMoving;
     private Vector3 lastMove;
-    // 
-    public static void stopMovement(){
-        rb.velocity = new Vector3(0, 0, 0); 
-    }
-    public static void startMovement(){
-    }
-    // 
     // Start is called before the first frame update
     void Start(){
         rb = GetComponent<Rigidbody>();
@@ -55,7 +48,7 @@ public class PlayerController : MonoBehaviour
                 playerMoving = false;
             }
         }
-        if (playerMoving == false){
+        if (playerMoving == false || anim.GetBool("PlayerAttacking")){
             rb.velocity = new Vector3(0, 0, 0); 
         };
 
